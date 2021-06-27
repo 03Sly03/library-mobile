@@ -7,81 +7,69 @@ import Books from './Books';
 export default function App() {
 
   const [nameInput, setNameInput] = useState("");
-//   const [isFound, setIsFound] = useState(false);
-
-//   const toggleFindMode = () => {
-//     setIsFound(!isFound);
-// }
 
   const [book, setBook] = useState([
-    {title: "Harry", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provide"},
-    {title: "La jungle", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"}
+
+    {id: 1, title: "Harry", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provide"},
+    {id: 2, title: "Percussion", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 3, title: "Voitures", body: "dolor sit amet consectetur  elit.  possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 4, title: "Animaux", body: "adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 5, title: "Les fantastiques", body: "Lorem  dolor sit amet consectetur adipisicing elit. , iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 6, title: "La Tarte aux pommes", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 7, title: "La jungle de Bob", body: " ipsuit amet consectetur  elit. Voluptatibus  hic  cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 8, title: "skulls & bones", body: "amet consectetur adipisicing elit. Voluptatibuscum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 9, title: "Personnalité", body: "dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 10, title: "A la fin de tout", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 11, title: "Trop c'est trop", body: "sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 12, title: "Quand c'est trop c'est tropico !", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 13, title: "Arrête ou ma mère va tirer !", body: "Lorem  dolor sit ametelit.Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 14, title: "Retour ou l'autre", body: "Loremamet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 15, title: "Le passionné", body: "Lorem  dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 16, title: "Amour toujours", body: " ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 17, title: "Fortune et gloire", body: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 18, title: "A la mémoire", body: "door sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"},
+    {id: 19, title: "Junior ...", body: " ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus possimus hic officiis cum, iusto quas fuga natus odio sint quo eaque, perferendis, provident atque fugit"}
+  
   ])
 
-  let foundTitle = [];
-  let booksJSX = [];
+  let [foundTitle, setFoundTitle] = useState([]);
 
-  booksJSX = book.map(book => {
-    return <Books title={book.title} body={book.body}/>
+  let booksJSX = book.map(book => {
+    return <Books key={book.id} title={book.title} body={book.body}/>
     })
-
-  const filterByTitle = (titleSearched) => {
-    if (titleSearched.title.toLowerCase() == nameInput.toLowerCase()) {
+  
+  function filterByTitle (titleSearched) {
+    if (titleSearched.title.toLowerCase().includes(nameInput.toLowerCase())) {
       return true;
+    }  else {
+      return false;
     } 
   }
-  foundTitle = book.filter(filterByTitle);
-  console.log(foundTitle.length);
-  console.log('Tableau filtré\n', foundTitle);
-  
-  if (foundTitle.length === 0) {
-    booksJSX = book.map(book => {
-      return <Books title={book.title} body={book.body}/>
-    })
-  } else {
+    
+  function search() {   
+    setFoundTitle(book.filter(filterByTitle)); 
+  }
+    
+  if (foundTitle.length != 0) {
     booksJSX = foundTitle.map(book => {
-      return <Books title={book.title} body={book.body}/>
+      return <Books key={book.id} title={book.title} body={book.body}/>
+    })
+  } 
+  else {
+    booksJSX = book.map(book => {
+      return <Books key={book.id} title={book.title} body={book.body}/>
     })
   }
-  
-  // for (const property in book) {
-  //   console.log(`${property}: ${book[property]}` + property.title);
-  //   if (nameInput === property.title) {
-  //     console.log("ça match bien du coup");
-  //   } else {
-  //   console.log("ça match pas");
-  //   }
-  // }
-
-  // book.forEach(element => console.log('le element :' + element));
-
-  // book.forEach(function(book) {
-  // console.log("le nom "+book.title+"/ et l'id : "+book.body);
-  // });
-  // if (nameInput === 'Harry') {
-  //   console.log("ça match bien du coup");
-  // } else {
-  //   console.log("");
-  // }
 
   return (
     <ScrollView>
       <View style={styles.container}>
 
         <Text>Ma bibliothéque</Text>
-        {/* <Button title="Dit bonjour" color="blue"/> */}
-        {/* {isFound ? <Text>Une autre phrase de texte</Text> : null} */}
-
         <View style={styles.form}>
           <TextInput value={nameInput} style={styles.kekchose} onChangeText={(text) => {setNameInput(text)}}/>
-          <Button title="GO" color="blue"/>
+          <Button onPress={search} title="GO" color="blue"/>
         </View>
-
-          {/* <Text style={styles.textStyle}>Et pis encore <Text>une autre</Text> phrase de texte</Text> */}
-        {/* <View>
-          <Button title="Find it!" onPress={toggleFindMode}/>
-          
-          </View> */}
         
           {booksJSX}
 
@@ -96,7 +84,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 50
+    marginTop: 50,
+    margin: 20
   },
   kekchose: {
     borderColor: 'red',
