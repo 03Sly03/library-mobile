@@ -10,25 +10,24 @@ import BookScreen from './screens/BookScreen';
 const Stack = createStackNavigator();
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Splash" screenOptions={{
-        headerStyle: {
-          backgroundColor: 'darkblue',
-        },
-        headerTintColor: 'white',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}>
-        <Stack.Screen name="Splash" component={SplashScreen} />
-        <Stack.Screen name="Library" component={LibraryScreen} />
-        <Stack.Screen name="Book" component={BookScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-
-
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Splash" screenOptions={{
+          headerStyle: {
+            backgroundColor: 'darkblue',
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontFamily: 'Yomogi'
+          },
+        }}>
+          <Stack.Screen name="Splash" component={SplashScreen} />
+          <Stack.Screen name="Library" component={LibraryScreen} />
+          <Stack.Screen name="Book" component={BookScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
 }
 
 

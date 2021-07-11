@@ -1,10 +1,13 @@
 import React from 'react';
 import { ScrollView, View, Text, Image, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
 export default function BookScreen({route}) {
     const book = route.params.book;
 
-    console.log(book);
+    let [fontsLoaded] = useFonts({
+        'Yomogi': require('../assets/fonts/Yomogi-Regular.ttf')
+      })
 
     let uriImage = book.volumeInfo.imageLinks
     ? {uri: `${book.volumeInfo.imageLinks.thumbnail}`}
@@ -54,15 +57,19 @@ const styles = StyleSheet.create({
     },
     title: {
         fontWeight: 'bold',
-        margin: 10
+        margin: 10,
+        fontFamily: 'Yomogi'
     },
     author: {
+        fontFamily: 'Yomogi',
         fontStyle: 'italic'
     },
     description: {
+        fontFamily: 'Yomogi',
         marginTop: 50
     },
     text: {
-        fontStyle: 'italic'
+        fontStyle: 'italic',
+        fontFamily: 'Yomogi'
     }
 });

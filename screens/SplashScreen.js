@@ -1,9 +1,15 @@
 import React from 'react';
 import { ImageBackground, View, Text, Button, StyleSheet } from 'react-native';
+import { useFonts } from 'expo-font';
 
 export default function SplashScreen({navigation}) {
 
+    
     const image = require('../assets/library-image.jpg');
+    
+    let [fontsLoaded] = useFonts({
+        'Yomogi': require('../assets/fonts/Yomogi-Regular.ttf')
+      })
 
     function goToMyLibrary() {
         navigation.reset({
@@ -16,15 +22,21 @@ export default function SplashScreen({navigation}) {
         })
     }
 
-    return (
-        <View style={styles.container}>
-            <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-            <View  style={styles.button}>
-                <Button title='Ma Bibliothèque' onPress={() => goToMyLibrary('Library')} color="#000000c0"/>
+    
+    if(!fontsLoaded) {
+        return <Text>Loading...</Text>
+    }
+    else {
+        return (
+            <View style={styles.container}>
+                <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+                <View>
+                <Text style={styles.textStyle} onPress={() => goToMyLibrary('Library')}>Ma Bibliothèque</Text>
+                </View>
+                </ImageBackground>
             </View>
-            </ImageBackground>
-        </View>
-    )
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -36,6 +48,17 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     button: {
-        color: "white",
-    }
+        color: "black",
+    },
+    textStyle: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        height: 100,
+        fontFamily: 'Yomogi',
+        fontSize: 25,
+        backgroundColor: "#000000c0",
+        color: 'white',
+        textAlign: 'center'
+      },
 });

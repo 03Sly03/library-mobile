@@ -3,33 +3,16 @@ import { TouchableOpacity, ScrollView, StyleSheet, Text, View, TextInput, Button
 import { SearchBar } from 'react-native-elements';
 import axios from 'axios';
 import { Entypo } from '@expo/vector-icons';
-import Icon from 'react-native-vector-icons/FontAwesome';
-
-
+import { useFonts } from 'expo-font';
 
 export default function LibraryScreen({navigation}) {
 
   const [updateSearch, setUpdateSearch] = useState("");
-  const [imache, setImache] = useState("");
-  const myIcon = <Icon name="rocket" size={30} color="#900" />;
-
-
   const [book, setBook] = useState([]);
-  // let [findTitle, setFindTitle] = useState([]);
 
-  console.log(updateSearch);
-  console.log('debut');
-  console.log(book);
-  console.log(book.length);
-  // console.log('tableau findTitle' +findTitle);
-
-  // function filterByTitle (titleSearched) {
-  //   if (updateSearch != "") {
-  //     return true;
-  //   }  else {
-  //     return false;
-  //   } 
-  // }
+  let [fontsLoaded] = useFonts({
+    'Yomogi': require('../assets/fonts/Yomogi-Regular.ttf')
+  })
 
   function search() {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${updateSearch}&key=AIzaSyBKatc18KylaYo50CqTyuJdqpUheS3CWdA`)
@@ -49,52 +32,52 @@ export default function LibraryScreen({navigation}) {
       })
     }, [])
 
-
-
     let booksJSX = book.map(book => {
-
       return  <View key={book.id}>
                 <View style={styles.iconStyle}>
-                <Entypo name="book" size={24} color="black" onPress={() => navigation.navigate('Book', {
-                  book : book
-                })}/>
-                
-                <View>
-                  <Text onPress={() => navigation.navigate('Book', {
-                  book : book
-                })}>title : {book.volumeInfo.title} authors : {book.volumeInfo.authors}</Text>
-                </View>
+                  <Entypo name="book" size={24} color="black" onPress={() => navigation.navigate('Book', {
+                    book : book
+                    })} />
+                  <View>
+                    <Text onPress={() => navigation.navigate('Book', {
+                    book : book
+                    })} style={styles.textStyle}>"{book.volumeInfo.title}"</Text>
+                    <Text style={styles.textStyleItalic}>{book.volumeInfo.authors}</Text>
+                  </View>
                 </View>
               </View>
       })
 
-    return (
-      <ScrollView style={styles.bcc}>
-        <View style={styles.container}>
-  
-          <Text style={styles.maBibli}>MA BIBLIOTHÈQUE</Text>
-          <View style={styles.searchBar}>
-          <SearchBar
-            lightTheme
-            onSubmitEditing={search}
-            placeholder="Recherche..."
-            onChangeText={(text) => {setUpdateSearch(text)}}
-            value={updateSearch}
-          />
-          <TouchableOpacity  style={styles.btn}>
-            <Button title='>' onPress={search} color="#e1e8ee"/>
-          </TouchableOpacity>
-         
-          </View>
+    if(!fontsLoaded) {
+      return <Text style={styles.textStyle}>Loading...</Text>
+    }
+    else {
+      return (
+        <ScrollView style={styles.bcc}>
+          <View style={styles.container}>
+            <Text style={styles.maBibli}>MA BIBLIOTHÈQUE</Text>
+            <View style={styles.searchBar}>
+              <SearchBar
+                lightTheme
+                onSubmitEditing={search}
+                style={styles.textStyle}
+                placeholder="Recherche..."
+                onChangeText={(text) => {setUpdateSearch(text)}}
+                value={updateSearch}
+              />
+              <TouchableOpacity  style={styles.btn}>
+                <Button title='>' onPress={search} color="#e1e8ee"/>
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.frameBooks}>
-            {booksJSX}
+            <View style={styles.frameBooks}>
+              {booksJSX}
+            </View>
+            
           </View>
-          
-        </View>
-      </ScrollView>
-    );
-
+        </ScrollView>
+      );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -111,13 +94,12 @@ const styles = StyleSheet.create({
     maBibli: {
       fontSize: 30,
       textAlign: 'center',
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontFamily: 'Yomogi'
     },
     textStyle: {
-      backgroundColor: 'pink',
-      color: '#ff3d6a',
-      padding: 20,
-      margin: 5
+      fontFamily: 'Yomogi',
+      fontSize: 25
     },
     form: {
       flexDirection: 'row',
@@ -140,5 +122,8 @@ const styles = StyleSheet.create({
       marginTop: 20,
       flexDirection: 'row',
       margin: 5
+    },
+    textStyleItalic: {
+      fontStyle: 'italic'
     }
   });
