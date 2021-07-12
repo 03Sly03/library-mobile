@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'skyblue',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20
+        padding: 10
     },
     tinyLogo: {
         resizeMode: 'stretch',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        fontSize: 30,
+        fontSize: 20,
         margin: 10,
         fontFamily: 'Yomogi'
     },

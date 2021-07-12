@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react'
-import { TouchableOpacity, ScrollView, StyleSheet, Text, View, TextInput, Button} from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import {FlatList, TouchableOpacity, ScrollView, StyleSheet, Text, View, TextInput, Button} from 'react-native';
+import { SearchBar, ListItem } from 'react-native-elements';
 import axios from 'axios';
-import { Entypo } from '@expo/vector-icons';
 import { useFonts } from 'expo-font';
 
 export default function LibraryScreen({navigation}) {
@@ -17,65 +16,57 @@ export default function LibraryScreen({navigation}) {
   function search() {
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=${updateSearch}&key=AIzaSyBKatc18KylaYo50CqTyuJdqpUheS3CWdA`)
     .then(res => {
-      // console.log(res.data.items);
       setBook(res.data.items);
-      console.log('ici le console.log: ');
-      console.log(book);
     })
   }
 
-    useEffect((updateSearch) => {
-      axios.get(`https://www.googleapis.com/books/v1/volumes?q=${updateSearch}&key=AIzaSyBKatc18KylaYo50CqTyuJdqpUheS3CWdA`)
+    useEffect(() => {
+      axios.get(`https://www.googleapis.com/books/v1/volumes?q=A&key=AIzaSyBKatc18KylaYo50CqTyuJdqpUheS3CWdA`)
       .then(res => {
         console.log(res.data.items);
         setBook(res.data.items);
       })
     }, [])
 
-    let booksJSX = book.map(book => {
-      return  <View key={book.id}>
-                <View style={styles.iconStyle}>
-                  <Entypo name="book" size={24} color="black" onPress={() => navigation.navigate('Book', {
-                    book : book
-                    })} />
-                  <View>
-                    <Text onPress={() => navigation.navigate('Book', {
-                    book : book
-                    })} style={styles.textStyle}>"{book.volumeInfo.title}"</Text>
-                    <Text style={styles.textStyleItalic}>{book.volumeInfo.authors}</Text>
-                  </View>
-                </View>
-              </View>
-      })
-
     if(!fontsLoaded) {
       return <Text style={styles.textStyle}>Loading...</Text>
     }
     else {
       return (
-        <ScrollView style={styles.bcc}>
-          <View style={styles.container}>
-            <Text style={styles.maBibli}>MA BIBLIOTHÈQUE</Text>
-            <View style={styles.searchBar}>
-              <SearchBar
-                lightTheme
-                onSubmitEditing={search}
-                style={styles.textStyle}
-                placeholder="Recherche..."
-                onChangeText={(text) => {setUpdateSearch(text)}}
-                value={updateSearch}
-              />
-              <TouchableOpacity  style={styles.btn}>
-                <Button title='>' onPress={search} color="#e1e8ee"/>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.frameBooks}>
-              {booksJSX}
-            </View>
-            
+        <View style={styles.bcc}>
+          <Text style={styles.maBibli}>MA BIBLIOTHÈQUE</Text>
+          <View style={styles.searchBar}>
+            <SearchBar
+            lightTheme
+            onSubmitEditing={search}
+            style={styles.textStyle}
+            placeholder="Recherche..."
+            onChangeText={(text) => {setUpdateSearch(text)}}
+            value={updateSearch}
+            />
           </View>
-        </ScrollView>
+          <FlatList
+            data={book}
+
+            renderItem={({item})=> (
+              <ListItem bottomDivider onPress={() => navigation.navigate('Book', {
+                book : item
+                })}
+                containerStyle={styles.bcc}
+                >
+                <ListItem.Content>
+                  <ListItem.Title style={styles.textStyle}>{item.volumeInfo.title}</ListItem.Title>
+                  <ListItem.Content style={styles.container}>             
+                    <ListItem.Title style={styles.textStyleItalic}>{item.volumeInfo.authors}</ListItem.Title>
+                  </ListItem.Content>
+                </ListItem.Content>
+                <ListItem.Chevron />
+
+              </ListItem>
+              )}
+              keyExtractor={item => item.id.toString()}
+          />
+        </View>
       );
     }
 }
@@ -85,44 +76,23 @@ const styles = StyleSheet.create({
       backgroundColor: 'skyblue'
     },
     container: {
-      flex: 1,
-      backgroundColor: 'skyblue',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: 20
+      padding: 10
     },
     maBibli: {
       fontSize: 30,
       textAlign: 'center',
       fontFamily: 'Yomogi',
+      margin: 30
     },
     textStyle: {
       fontFamily: 'Yomogi',
-      fontSize: 25
-    },
-    form: {
-      flexDirection: 'row',
-      justifyContent: 'space-around'
-    },
-    searchBar: {
-      flex: 1,
-      width: 350,
-      backgroundColor: '#e1e8ee',
-      margin: 30,
-    },
-    btn: {
-      justifyContent: 'center',
-      borderRadius: 0,
-    },
-    frameBooks: {
-      padding: 20,
-    },
-    iconStyle: {
-      marginTop: 20,
-      flexDirection: 'row',
-      margin: 5
+      fontSize: 20
     },
     textStyleItalic: {
-      fontStyle: 'italic'
-    }
+      fontStyle: 'italic',
+    },
+    // searchBar: {
+    // alignItems: 'center',
+    // margin: 30,
+    // },
   });
