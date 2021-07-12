@@ -94,8 +94,7 @@ const styles = StyleSheet.create({
     maBibli: {
       fontSize: 30,
       textAlign: 'center',
-      fontWeight: 'bold',
-      fontFamily: 'Yomogi'
+      fontFamily: 'Yomogi',
     },
     textStyle: {
       fontFamily: 'Yomogi',

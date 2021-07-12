@@ -51,10 +51,7 @@ const styles = StyleSheet.create({
         color: "black",
     },
     textStyle: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        height: 100,
+        height: 50,
         fontFamily: 'Yomogi',
         fontSize: 25,
         backgroundColor: "#000000c0",

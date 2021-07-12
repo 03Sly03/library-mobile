@@ -13,29 +13,34 @@ export default function BookScreen({route}) {
     ? {uri: `${book.volumeInfo.imageLinks.thumbnail}`}
     : require('../assets/pas_image.png');
 
-    return (
-        <ScrollView  style={styles.bcc}>
-            <View style={styles.container}>
-                <Image
-                    style={styles.tinyLogo}
-                    source={uriImage}
-                />
+    if(!fontsLoaded) {
+        return <Text>Loading...</Text>
+    }
+    else {
+        return (
+            <ScrollView  style={styles.bcc}>
+                <View style={styles.container}>
+                    <Image
+                        style={styles.tinyLogo}
+                        source={uriImage}
+                    />
 
-                <Text style={styles.title}>
-                    {book.volumeInfo.title}
-                </Text>
-                <Text style={styles.author}>
-                    {book.volumeInfo.authors}
-                </Text>
-                <View style={styles.description}>
-                    <Text style={styles.title}>DESCRIPTION:</Text>
-                    <Text  style={styles.text}>
-                        {book.volumeInfo.description}
+                    <Text style={styles.title}>
+                        {book.volumeInfo.title}
                     </Text>
+                    <Text style={styles.author}>
+                        {book.volumeInfo.authors}
+                    </Text>
+                    <View style={styles.description}>
+                        <Text style={styles.title}>DESCRIPTION</Text>
+                        <Text  style={styles.text}>
+                            {book.volumeInfo.description}
+                        </Text>
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
-    )
+            </ScrollView>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -56,7 +61,8 @@ const styles = StyleSheet.create({
         margin: 50
     },
     title: {
-        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 30,
         margin: 10,
         fontFamily: 'Yomogi'
     },
@@ -65,6 +71,7 @@ const styles = StyleSheet.create({
         fontStyle: 'italic'
     },
     description: {
+        fontSize: 25,
         fontFamily: 'Yomogi',
         marginTop: 50
     },
